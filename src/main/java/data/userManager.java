@@ -17,6 +17,11 @@ public class userManager {
     }
 
     public static User createNewUser(String username, String password, String email, String encryptionType, DB db) {
+        //CHECK IF IT ALREAD EXISTS
+
+        //CHECK PASSWORD PARAMETERs -- NEW METHOD
+
+
         String passwordHash = Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
@@ -29,9 +34,22 @@ public class userManager {
 
 
     //Edit Account
+    public static void editUserField(User user, String newParameter, UserField fieldToChange , DB db) {
+        switch (fieldToChange){
+            case username:
+            case password:
+            case encryptionType:
+                databaseOperations.editOneParameterDb(user.getUsername(), newParameter, fieldToChange, db);
+                break;
+            case email:
+                databaseOperations.editOneParameterDb(user.getEmail(), newParameter, fieldToChange, db);
+                break;
+        }
+    }
 
 
-    //Delete Account
+
+        //Delete Account
 
     public static void deleteUser(User user, DB db) {
         databaseOperations.removeUserFromDb(user.getUsername(), db);
