@@ -16,8 +16,11 @@ public class EngineAPI {
             //AWAITS INPUT FROM GUI
             //DOES SHIT BASED ON IT
         }*/
-        currentUser = CreateNewUser("Pedro", "12@RP7123", "pedrex1997@gmail.com", "AES128", db);
-        EditUser(currentUser, "JOJO", UserField.username, db);
+        //currentUser = CreateNewUser("Joao", "12@RP7123", "pedrex1997@gmail.com", "AES128", db);
+        //EditUser(currentUser, "JOJO", UserField.username, db);
+        //databaseOperations.editAddToPasswordListDb("Joao", "MANEL", "ORIGIN", "heheheh", db);
+        //User user = new User("Joao", "12@RP7123", "pedrex1997@gmail.com", "AES128");
+        //userManager.deletePasswordFromList(user, "ORIGIN", null, null, db);
     }
 
 

@@ -4,8 +4,7 @@ import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 
 public class User {
 
@@ -14,7 +13,7 @@ public class User {
     private static String email;
     private static String encryptionType;
     private static boolean isAuthenticated;
-    private static List<Pair<String, String>> passwordList = Collections.emptyList();
+    private static HashMap<String, Pair<String, String>> passwordList = new HashMap<>();
 
 
 
@@ -66,18 +65,6 @@ public class User {
 
     public void setIsAuthenticated(boolean isAuthenticated) {
         User.isAuthenticated = isAuthenticated;
-    }
-
-    public void addPassword(Pair<String, String> userPass) {
-        User.passwordList.add(userPass);
-    }
-
-    public List<Pair<String, String>> getPasswordList() {
-        return User.passwordList;
-    }
-
-    public void removePassword(Pair<String, String> userPass){
-        User.passwordList.remove(userPass);
     }
 
 }
