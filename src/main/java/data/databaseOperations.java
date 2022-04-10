@@ -107,7 +107,7 @@ public abstract class databaseOperations {
         DBCursor cursor = collection.find(query);
         if(cursor.hasNext()){
             BasicDBObject object = (BasicDBObject) cursor.next();
-           BasicDBList listOfPasswords = (BasicDBList) object.get("passwordList");
+            BasicDBList listOfPasswords = (BasicDBList) object.get("passwordList");
             listOfPasswords.forEach(element -> {
                 String user =  (((BasicDBObject) element).get("user")).toString();
                 String pass =  (((BasicDBObject) element).get("password")).toString();
