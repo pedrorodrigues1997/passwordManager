@@ -38,6 +38,9 @@ public class EngineAPI {
 
     private static User CreateNewUser(String username, String password, String email, String encryptionType, DB db) {
         User newUser = userManager.createNewUser(username, password, email, encryptionType, db);
+        if(newUser == null){
+            //prompt new password
+        }
         return newUser;
     }
 

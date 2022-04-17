@@ -11,7 +11,6 @@ public class User {
     private static String username;
     private static String passwordHash;
     private static String email;
-    private static String encryptionType;
     private static boolean isAuthenticated;
     private static HashMap<String, Pair<String, String>> passwordList = new HashMap<>();
 
@@ -19,11 +18,10 @@ public class User {
 
     private static final Logger LOGGER = LogManager.getLogger(User.class);
 
-    public User(String username, String passwordHash, String email, String encryptionType){
+    public User(String username, String passwordHash, String email){
         this.username = username;
         this.passwordHash = passwordHash;
         this.email = email;
-        this.encryptionType = encryptionType;
 
     }
 
@@ -51,14 +49,6 @@ public class User {
         User.email = email;
     }
 
-    public String getEncryptionType() {
-        return encryptionType;
-    }
-
-    public void setEncryptionType(String encryptionType) {
-        User.encryptionType = encryptionType;
-    }
-
     public boolean isIsAuthenticated() {
         return isAuthenticated;
     }
@@ -67,4 +57,18 @@ public class User {
         User.isAuthenticated = isAuthenticated;
     }
 
+    public HashMap<String, Pair<String, String>> getPasswordList() {
+        return passwordList;
+    }
+
+    public void setPasswordList(HashMap<String, Pair<String, String>> passwordList) {
+        User.passwordList = passwordList;
+    }
+
+    @Override
+    public String toString() {
+        return "User[username " + getUsername() + " " +
+                "email" + getEmail() + " " +
+                "passwordList" + getPasswordList().toString();
+    }
 }

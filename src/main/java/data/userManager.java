@@ -25,10 +25,14 @@ public class userManager {
             return authenticateUser(username, password, db);
         }
         //CHECK PASSWORD PARAMETERs -- NEW METHOD
+        if(password.length() <= 8){
+            LOGGER.info("Password smaller than 8 characters. Please choose a new password");
+            return null;
+        }
 
 
         String passwordHash = getPasswordHash(password);
-        User newUser = new User(username, passwordHash, email, encryptionType);
+        User newUser = new User(username, passwordHash, email);
         databaseOperations.addUsertoDb(username, passwordHash, email, encryptionType, db);
         return newUser;
     }
@@ -42,6 +46,7 @@ public class userManager {
             return databaseOperations.getUserFromDB(username, password, db);
 
         }else{
+            LOGGER.info("Wrong password for user: {}", username);
             return null;
         }
     }

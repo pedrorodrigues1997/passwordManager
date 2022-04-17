@@ -60,15 +60,6 @@ public abstract class databaseOperations {
 
         }
 
-        if (field.toString().equals("encryptionType")) {
-            BasicDBObject query = new BasicDBObject("username", queryParameter);
-            BasicDBObject newDocument = new BasicDBObject(field.toString(), newParameter);
-            BasicDBObject updateObject = new BasicDBObject("$set", newDocument);
-            collection.update(query, updateObject);
-            return verifyUserIsInDB(newParameter, field, db);
-
-        }
-
         BasicDBObject query = new BasicDBObject(field.toString(), queryParameter);
         BasicDBObject newDocument = new BasicDBObject(field.toString(), newParameter);
         BasicDBObject updateObject = new BasicDBObject("$set", newDocument);
@@ -89,7 +80,6 @@ public abstract class databaseOperations {
     public static boolean editRemoveFromPasswordListDb(String username, String accountName, DB db) {
         DBCollection collection = db.getCollection("Clients");
         BasicDBObject query = new BasicDBObject("username", username);
-        //BasicDBObject newDocument = new BasicDBObject("passwordList", new BasicDBObject("AccountName", accountName).append("user", usernameOfAccount).append("password", passwordHash));
         BasicDBObject newDocument = new BasicDBObject("passwordList", new BasicDBObject("AccountName", accountName));
         BasicDBObject updateObject = new BasicDBObject("$pull", newDocument);
         collection.update(query, updateObject);
@@ -142,14 +132,27 @@ public abstract class databaseOperations {
     }
 
     public static User getUserFromDB(String username,String password, DB db) {
+        HashMap<String, Pair<String, String>> passwordList = new HashMap<>();
         DBCollection collection = db.getCollection("Clients");
         BasicDBObject userQuery = new BasicDBObject();
         userQuery.put("username", username);
         DBCursor cursor = collection.find(userQuery);
         if (cursor.hasNext()) {
             BasicDBObject object = (BasicDBObject) cursor.next();
-            object.get("username");
-           return new User(object.get("username").toString(), password, object.get("email").toString(), object.get("encryptionType").toString());
+            BasicDBList listOfPasswords = (BasicDBList) object.get("passwordList");
+            listOfPasswords.forEach(element -> {
+                String user = (((BasicDBObject) element).get("user")).toString();
+                String pass = (((BasicDBObject) element).get("password")).toString();
+                String Account = (((BasicDBObject) element).get("AccountName")).toString();
+
+                Pair<String, String> userPass = new Pair<>(user, pass);
+
+                passwordList.put(Account, userPass);
+            });
+           User user = new User(object.get("username").toString(), password, object.get("email").toString());
+           user.setPasswordList(passwordList);
+           LOGGER.info("Fetched user {} from Database", user.toString());
+           return user;
 
         }else{
             LOGGER.info("User {} not found", username);
